@@ -13,15 +13,17 @@
     "quit": "Quit"
   },
   "homepage": {
-    "welcome": "Welcome to use Wails program developed based on Vue",
+    "welcome": "Welcome to use the enzyme-based primer synthesis design software",
+    "capturePrimer":"capture primer",
     "getting-started": "Getting Started",
     "star-me": "Github"
   },
   "aboutpage": {
-    "title": "Wails Template Vue",
+    "title": "Enzymatic Primer Synthesis Design",
     "project-repository": "Project Repository",
     "author": "Author",
     "misitebao": "Misitebao",
+    "wangyaoshen": "Wang Yaoshen",
     "wails-repository": "Wails Repository",
     "thanks": "Thank you all for your support🙏!"
   },
