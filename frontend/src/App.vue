@@ -7,9 +7,13 @@ const onclickLanguageHandle = (item: string) => {
   item !== locale.value ? (locale.value = item) : false;
 };
 
-const onclickMinimise = () => { };
+const onclickMinimise = () => {
+  window.runtime.WindowMinimise();
+};
 
-const onclickQuit = () => { };
+const onclickQuit = () => {
+  window.runtime.Quit();
+};
 
 document.body.addEventListener("click", function (event) {
   event.preventDefault();
@@ -184,4 +188,5 @@ body {
   right: 0;
   bottom: 0;
   overflow: hidden;
-}</style>
+}
+</style>
