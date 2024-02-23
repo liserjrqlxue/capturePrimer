@@ -17,21 +17,21 @@ const { t } = useI18n();
       </div>
       <ul class="info">
         <li class="info-item">
-          <div class="name">{{ t("aboutpage.project-repository") }}</div>
-          <a class="link" href="https://github.com/misitebao/wails-template-vue"
-            >https://github.com/misitebao/wails-template-vue</a
-          >
-        </li>
-        <li class="info-item">
           <div class="name">{{ t("aboutpage.wails-repository") }}</div>
           <a class="link" href="https://github.com/wailsapp/wails"
             >https://github.com/wailsapp/wails</a
           >
         </li>
         <li class="info-item">
+          <div class="name">{{ t("aboutpage.template-repository") }}</div>
+          <a class="link" href="https://github.com/misitebao/wails-template-vue"
+            >https://github.com/misitebao/wails-template-vue</a
+          >
+        </li>
+        <li class="info-item">
           <div class="name">{{ t("aboutpage.author") }}</div>
-          <a class="link" href="https://github.com/misitebao">{{
-            t("aboutpage.misitebao")
+          <a class="link" href="https://github.com/liserjrqlxue">{{
+            t("aboutpage.wangyaoshen")
           }}</a>
         </li>
       </ul>
