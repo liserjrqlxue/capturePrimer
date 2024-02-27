@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useI18n } from "vue-i18n";
 
-import { ref,computed } from 'vue';
+import { ref, computed } from 'vue';
 import { SelectFile } from '../../wailsjs/go/main/App';
 import { RunCapture } from '../../wailsjs/go/main/App';
 import { SaveRows } from '../../wailsjs/go/main/App';
@@ -16,16 +16,16 @@ const primerLength = ref(40);
 const allResult = ref<any>(null);
 const resultData = ref<any>(null);
 const captureStatus = ref('');
+const rows = ref<any[]>([]);
+
 // Computed property to determine the class
 const statusClass = computed(() => {
   return captureStatus.value === 'fail' ? 'text-red-500' : ''; // Tailwind class for red text
 });
-
-const rows = ref<any[]>([]);
-
 const copySuccess = ref(false);
 const tooltipX = ref(0);
 const tooltipY = ref(0);
+
 const openFileDialog = async () => {
   try {
     const options = {
@@ -50,8 +50,7 @@ const runCapture = async () => {
     rows.value = convertResult2Table(resultData.value);
     console.log(rows)
   }
-  const resultCard = document.getElementById('resultCard')
-  resultCard?.classList.remove('hidden');
+  document.getElementById('resultCard')?.classList.remove('hidden');
 }
 
 const copyRows = (event: { clientX: number; clientY: number; }) => {
@@ -111,7 +110,7 @@ const convertResult2Table = (data: any) => {
 <template>
   <div class="container mx-auto">
     <div class="mx-auto object-center py-4">
-      <form class="gap-4 p-4">
+      <div class="gap-4 p-4">
         <div class="flex w-full">
           <label class="w-1/6 ">选择文件</label>
           <input class="w-5/6 " type="text" @click="openFileDialog" v-model="filePath" required />
@@ -125,7 +124,7 @@ const convertResult2Table = (data: any) => {
         <div class="flex justify-end py-4">
           <button class="button w-5/6 bg-white" @click="runCapture">Submit</button>
         </div>
-      </form>
+      </div>
     </div>
     <div id="resultCard" class="hidden gap-4 p-4">
       <div class="flex justify-between py-4">
