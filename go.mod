@@ -1,4 +1,4 @@
-module changeme
+module capturePrimer
 
 go 1.21
 
