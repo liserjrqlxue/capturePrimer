@@ -101,6 +101,15 @@ type AllResult struct {
 }
 
 func (a *App) RunCapture(path string, totalLength int) (allResult AllResult, err error) {
+	defer func() {
+		if e := recover(); e != nil {
+			slog.Error("RunCapturePrimer", "err", e)
+			if err == nil {
+				err = fmt.Errorf("%v", e)
+			}
+		}
+	}()
+
 	var data [][]string
 	allResult = AllResult{
 		Status:  "fail",
@@ -122,6 +131,11 @@ func (a *App) RunCapture(path string, totalLength int) (allResult AllResult, err
 		slog.Info("RunCapturePrimer", "i", i, "item", item)
 
 		go func(i int, item map[string]string) {
+			defer func() {
+				if e := recover(); e != nil {
+					slog.Error("RunCapturePrimer", "i", i, "item", item, "err", e)
+				}
+			}()
 			defer wg.Done()
 
 			geneName := item["基因名称"]
@@ -136,12 +150,25 @@ func (a *App) RunCapture(path string, totalLength int) (allResult AllResult, err
 				resultCh <- singelResult
 			}()
 
+			if geneName == "" {
+				singelResult.Status = fmt.Sprintf("Empty Name for Seq:[%s]", rawSeq)
+				slog.Error("Seq", "Name", geneName, "rawSeq", rawSeq, "extendLength", totalLength)
+				return
+			}
+
+			if rawSeq == "" {
+				singelResult.Status = fmt.Sprintf("Empty Seq of Name:[%s]", geneName)
+				slog.Error("Seq", "Name", geneName, "rawSeq", rawSeq, "extendLength", totalLength)
+				return
+			}
+
 			Seq := util.NewSeq(geneName, rawSeq, geneName, false)
 			slog.Info("Seq", "Name", Seq.Name, "Length", Seq.Length, "extendLength", totalLength)
 			Seq.CalAll()
 			err := Seq.FindCapturePrimers(totalLength, 200)
 			primers := Seq.CapturePrimers
 			if err != nil || len(primers) == 0 {
+				singelResult.Status = fmt.Sprintf("FindCapturePrimer failed:[%v]", err)
 				slog.Error("FindCapturePrimer", "err", err)
 				return
 			}
@@ -172,7 +199,7 @@ func (a *App) RunCapture(path string, totalLength int) (allResult AllResult, err
 	// 从结果通道中读取结果
 	for r := range resultCh {
 		result = append(result, r)
-		if r.Status == "fail" {
+		if r.Status != "success" {
 			allResult.Status = "fail"
 		}
 	}
