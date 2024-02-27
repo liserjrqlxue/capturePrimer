@@ -1,23 +1,29 @@
 <script setup lang="ts">
 import { useI18n } from "vue-i18n";
+import {WindowMinimise,Quit} from "../wailsjs/runtime/runtime";
+
+
+
 
 const { t, availableLocales: languages, locale } = useI18n();
+
+locale.value="zh-Hans";
 
 const onclickLanguageHandle = (item: string) => {
   item !== locale.value ? (locale.value = item) : false;
 };
 
 const onclickMinimise = () => {
-  window.runtime.WindowMinimise();
+  WindowMinimise();
 };
 
 const onclickQuit = () => {
-  window.runtime.Quit();
+  Quit();
 };
 
-document.body.addEventListener("click", function (event) {
-  event.preventDefault();
-});
+// document.body.addEventListener("click", function (event) {
+//   // event.preventDefault();
+// });
 </script>
 
 <template>
@@ -26,6 +32,7 @@ document.body.addEventListener("click", function (event) {
     <!-- navigation -->
     <div class="nav">
       <router-link to="/">{{ t("nav.home") }}</router-link>
+      <router-link to="/capture">{{ t("nav.capture") }}</router-link>
       <router-link to="/about">{{ t("nav.about") }}</router-link>
     </div>
     <!-- Menu -->
@@ -187,6 +194,7 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  overflow: hidden;
+  // overflow: hidden;
+  overflow: auto;
 }
 </style>
