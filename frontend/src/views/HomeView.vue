@@ -3,7 +3,13 @@ import { useI18n } from "vue-i18n";
 
 import HelloWorld from "@/components/HelloWorld.vue";
 
+import router from "../router"
+
 const { t } = useI18n();
+
+if (history.length<=1){
+  router.replace('/capture')
+}
 </script>
 
 <template>
@@ -13,16 +19,12 @@ const { t } = useI18n();
     <HelloWorld :msg="t('homepage.welcome')" />
     <!-- Bottom button -->
     <div class="link">
-      <a
+      <!-- <a
         href="https://wails.io/docs/gettingstarted/installation"
         class="btn start"
         >{{ t("homepage.getting-started") }}</a
-      >
-      <a
-        href="https://github.com/misitebao/wails-template-vue"
-        class="btn star"
-        >{{ t("homepage.star-me") }}</a
-      >
+      > -->
+      <router-link class="btn start" to="/capture">{{ t("homepage.capturePrimer") }}</router-link>
     </div>
   </div>
 </template>
@@ -31,8 +33,8 @@ const { t } = useI18n();
 .home {
   .logo {
     display: block;
-    width: 620px;
-    height: 280px;
+    width: 500px;
+    height: 500px;
     margin: 10px auto 10px;
   }
   .link {
