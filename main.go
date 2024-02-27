@@ -36,7 +36,7 @@ func main() {
 		MaxHeight:         1000,
 		DisableResize:     false,
 		Fullscreen:        false,
-		Frameless:         false,
+		Frameless:         true,
 		StartHidden:       false,
 		HideWindowOnClose: false,
 		BackgroundColour:  &options.RGBA{R: 255, G: 255, B: 255, A: 0},
@@ -59,8 +59,10 @@ func main() {
 		// Windows platform specific options
 		// Windows平台特定选项
 		Windows: &windows.Options{
-			WebviewIsTransparent:              true,
-			WindowIsTranslucent:               false,
+			WebviewIsTransparent: true,
+			WindowIsTranslucent:  true,
+			BackdropType:         windows.Acrylic,
+			// BackdropType: windows.Mica,
 			DisableWindowIcon:                 false,
 			DisableFramelessWindowDecorations: false,
 			WebviewUserDataPath:               "",
