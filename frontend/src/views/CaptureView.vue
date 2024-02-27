@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useI18n } from "vue-i18n";
 
-import { ref } from 'vue';
+import { ref,computed } from 'vue';
 import { SelectFile } from '../../wailsjs/go/main/App';
 import { RunCapture } from '../../wailsjs/go/main/App';
 import { SaveRows } from '../../wailsjs/go/main/App';
@@ -16,6 +16,10 @@ const primerLength = ref(40);
 const allResult = ref<any>(null);
 const resultData = ref<any>(null);
 const captureStatus = ref('');
+// Computed property to determine the class
+const statusClass = computed(() => {
+  return captureStatus.value === 'fail' ? 'text-red-500' : ''; // Tailwind class for red text
+});
 
 const rows = ref<any[]>([]);
 
@@ -127,7 +131,7 @@ const convertResult2Table = (data: any) => {
       <div class="flex justify-between py-4">
         <div class-="w-5/6">
           Result Count: {{ rows.length }}
-          Status: {{ captureStatus }}
+          Status: <span :class=statusClass>{{ captureStatus }}</span>
         </div>
         <div class="flex w-1/6 justify-end">
           <button class="button px-2" @click="copyRows">Copy</button>
@@ -152,17 +156,19 @@ const convertResult2Table = (data: any) => {
         </thead>
         <tbody>
           <template v-for="(row) in rows">
-            <tr v-if="row.status === 'fail'" :class="{ 'text-red-500 fail-row': row.status === 'fail' }">
-              <td>{{ row.index }}</td>
-              <td>{{ row.name }}</td>
-              <td>fail</td>
-            </tr>
-            <tr v-else>
+            <tr v-if="row.status === 'success'">
               <td>{{ row.index }}</td>
               <td>{{ row.name }}</td>
               <td>{{ row.seq }}</td>
               <td>{{ row.start }}</td>
               <td>{{ row.end }}</td>
+            </tr>
+            <tr v-else class="text-red-500">
+              <td>{{ row.index }}</td>
+              <td>{{ row.name }}</td>
+              <td>{{ row.status }}</td>
+              <td></td>
+              <td></td>
             </tr>
           </template>
         </tbody>
