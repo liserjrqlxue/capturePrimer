@@ -1,6 +1,7 @@
 {
   "nav": {
     "home": "Home",
+    "capture":"Capture",
     "about": "About"
   },
   "languages": {
