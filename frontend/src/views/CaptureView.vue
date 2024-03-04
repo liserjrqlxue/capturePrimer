@@ -12,9 +12,8 @@ const { t } = useI18n();
 
 const filePath = ref('');
 const primerLength = ref(40);
+const looseness=ref(false)
 
-const allResult = ref<any>(null);
-const resultData = ref<any>(null);
 const captureStatus = ref('');
 const rows = ref<any[]>([]);
 
@@ -42,15 +41,20 @@ const openFileDialog = async () => {
 
 const runCapture = async () => {
   rows.value = [];
-  allResult.value = await RunCapture(filePath.value, Number(primerLength.value));
-  console.log(allResult.value)
-  resultData.value = allResult.value.results
-  captureStatus.value = allResult.value.status
-  if (resultData.value) {
-    rows.value = convertResult2Table(resultData.value);
-    console.log(rows)
-  }
-  document.getElementById('resultCard')?.classList.remove('hidden');
+  await RunCapture(filePath.value, Number(primerLength.value),looseness.value).then(
+    (allResult) => {
+      console.log(allResult)
+      captureStatus.value = allResult.status
+      if (allResult.results) {
+        rows.value = convertResult2Table(allResult.results);
+        console.log(rows)
+      }
+      document.getElementById('resultCard')?.classList.remove('hidden');
+    }
+  ).catch((error) => {
+    alert(error);
+    console.log(error);
+  });
 }
 
 const copyRows = (event: { clientX: number; clientY: number; }) => {
@@ -66,8 +70,10 @@ const copyRows = (event: { clientX: number; clientY: number; }) => {
         }, 1000);
       }
     }
-
-  )
+  ).catch((error) => {
+    alert(error);
+    console.log(error);
+  });
 }
 
 const saveRows = async () => {
@@ -109,48 +115,63 @@ const convertResult2Table = (data: any) => {
 
 <template>
   <div class="container mx-auto">
-    <div class="mx-auto object-center py-4">
+    <div class="mx-auto object-center py-4" style="--wails-draggable:no-drag">
       <div class="gap-4 p-4">
         <div class="flex w-full">
-          <label class="w-1/6 ">选择文件</label>
+          <label class="w-1/6 ">{{ t("capturepage.selectFile") }}</label>
           <input class="w-5/6 " type="text" @click="openFileDialog" v-model="filePath" required />
         </div>
         <div class="flex w-full items-center py-4">
-          <label class="w-1/6 ">引物长度</label>
+          <label class="w-1/6 ">{{ t("capturepage.primerLength") }}</label>
           <input type="range" v-model="primerLength" min="17" max="60"
             class="w-4/6 slider h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700" />
-          <label class="w-1/6 text-right mt-2"> Value: {{ primerLength }} </label>
+          <label class="w-1/6 text-right mt-2"> {{ t("capturepage.value") }}: {{ primerLength }} </label>
+        </div>
+        <div class="flex w-full">
+          <label class="w-1/6">{{ t("capturepage.looseness") }}</label>
+          <input type="checkbox" v-model="looseness" class="w-5/6" />
         </div>
         <div class="flex justify-end py-4">
-          <button class="button w-5/6 bg-white" @click="runCapture">Submit</button>
+          <button class="button w-5/6 bg-white" @click="runCapture">{{ t("capturepage.analysisBtn") }}</button>
         </div>
       </div>
     </div>
-    <div id="resultCard" class="hidden gap-4 p-4">
+    <div id="resultCard" class="hidden gap-4 p-4" style="--wails-draggable:no-drag">
       <div class="flex justify-between py-4">
-        <div class-="w-5/6">
-          Result Count: {{ rows.length }}
-          Status: <span :class=statusClass>{{ captureStatus }}</span>
+        <div class="flex w-4/12 justify-between">
+          <div>
+            <span class="w-2/12">{{ t("capturepage.resultCount") }}: {{ rows.length }}</span>
+          </div>
+          <div>
+            <span class="w-2/12"> {{ t("capturepage.resultStatus") }}: <span :class=statusClass>{{
+              t("capturepage." + captureStatus)
+            }}</span></span>
+          </div>
         </div>
         <div class="flex w-1/6 justify-end">
-          <button class="button px-2" @click="copyRows">Copy</button>
+          <button class="button px-2" @click="copyRows">{{ t("capturepage.copyBtn") }}</button>
           <!-- 成功提示，当 showSuccess 为 true 时显示 -->
           <div v-if="copySuccess" :style="{ left: tooltipX + 'px', top: tooltipY + 'px' }"
             class="absolute p-2 bg-gray-700 text-white rounded">
-            复制成功!
+            {{ t("capturepage.copySuccess") }}
           </div>
-          <button class="button px-2 ml-2" @click="saveRows">Save</button>
+          <button class="button px-2 ml-2" @click="saveRows">{{ t("capturepage.saveBtn") }}</button>
         </div>
       </div>
       <table
-        class="primerTable text-center bg-white border-collapse border-spacing-2 w-full border border-slate-400 dark:border-slate-500 dark:bg-slate-800">
+        class="primerTable text-center border-collapse border-spacing-2 w-full border border-slate-400 dark:border-slate-500 dark:bg-slate-800">
         <thead class="bg-slate-50 dark:bg-slate-700">
-          <tr>
-            <th>Index</th>
-            <th>Name</th>
-            <th>Sequence</th>
-            <th>Start</th>
-            <th>End</th>
+          <tr v-if="captureStatus === 'success'">
+            <th>{{ t("capturepage.titleIndex") }}</th>
+            <th>{{ t("capturepage.titleName") }}</th>
+            <th>{{ t("capturepage.titleSequence") }}</th>
+            <th>{{ t("capturepage.titleStart") }}</th>
+            <th>{{ t("capturepage.titleEnd") }}</th>
+          </tr>
+          <tr v-else>
+            <th>{{ t("capturepage.titleIndex") }}</th>
+            <th>{{ t("capturepage.titleName") }}</th>
+            <th>{{ t("capturepage.titleError") }}</th>
           </tr>
         </thead>
         <tbody>
@@ -166,8 +187,6 @@ const convertResult2Table = (data: any) => {
               <td>{{ row.index }}</td>
               <td>{{ row.name }}</td>
               <td>{{ row.status }}</td>
-              <td></td>
-              <td></td>
             </tr>
           </template>
         </tbody>
@@ -240,6 +259,7 @@ const convertResult2Table = (data: any) => {
 
 table {
   user-select: none;
+  background-color: #d7a8d8;
 
   // th:nth-child(2),
   // th:nth-child(3),
@@ -258,12 +278,16 @@ thead tr {
   }
 }
 
-tbody tr {
+tbody {
   background-color: #d7a8d8;
 
-  &:hover {
-    color: #ffffff;
-  }
+  tr {
+    background-color: #d7a8d8;
 
+    &:hover {
+      color: #ffffff;
+    }
+
+  }
 }
 </style>

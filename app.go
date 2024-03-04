@@ -100,7 +100,7 @@ type AllResult struct {
 	Results []*Result `json:"results"`
 }
 
-func (a *App) RunCapture(path string, totalLength int) (allResult AllResult, err error) {
+func (a *App) RunCapture(path string, totalLength int, looseness bool) (allResult AllResult, err error) {
 	defer func() {
 		if e := recover(); e != nil {
 			slog.Error("RunCapturePrimer", "err", e)
@@ -165,7 +165,7 @@ func (a *App) RunCapture(path string, totalLength int) (allResult AllResult, err
 			Seq := util.NewSeq(geneName, rawSeq, geneName, false)
 			slog.Info("Seq", "Name", Seq.Name, "Length", Seq.Length, "extendLength", totalLength)
 			Seq.CalAll()
-			err := Seq.FindCapturePrimers(totalLength, 200)
+			err := Seq.FindCapturePrimers(totalLength, 200, looseness)
 			primers := Seq.CapturePrimers
 			if err != nil || len(primers) == 0 {
 				singelResult.Status = fmt.Sprintf("FindCapturePrimer failed:[%v]", err)

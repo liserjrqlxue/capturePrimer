@@ -1,7 +1,7 @@
 {
   "nav": {
     "home": "主页",
-    "capture":"捕获",
+    "capture": "捕获",
     "about": "关于"
   },
   "languages": {
@@ -15,7 +15,7 @@
   },
   "homepage": {
     "welcome": "欢迎使用酶法引物合成设计软件",
-    "capturePrimer":"捕获探针",
+    "capturePrimer": "捕获探针",
     "getting-started": "快速入门",
     "star-me": "Github"
   },
@@ -25,9 +25,29 @@
     "template-repository": "模板仓库",
     "author": "作者",
     "misitebao": "米司特包",
-    "wangyaoshen":"王垚燊",
+    "wangyaoshen": "王垚燊",
     "wails-repository": "Wails 仓库",
     "thanks": "感谢各位大佬的支持🙏！"
+  },
+  "capturepage": {
+    "selectFile": "选择文件",
+    "primerLength": "引物长度",
+    "value": "值",
+    "looseness":"放宽限制",
+    "analysisBtn": "分析",
+    "copyBtn": "复制",
+    "copySuccess":"复制成功",
+    "saveBtn": "保存",
+    "resultCount": "结果个数",
+    "resultStatus": "状态",
+    "success":"成功",
+    "fail":"失败",
+    "titleIndex": "序号",
+    "titleName": "名称",
+    "titleSequence": "序列",
+    "titleStart": "起点",
+    "titleEnd": "终点",
+    "titleError": "错误信息"
   },
   "global": {
     "not-supported": "由于是测试版，所以暂时做不了，后续会完成它。",
