@@ -30,7 +30,7 @@ const onclickQuit = () => {
   <!-- Header -->
   <div class="header">
     <!-- navigation -->
-    <div class="nav">
+    <div class="nav"  style="--wails-draggable:drag">
       <router-link to="/">{{ t("nav.home") }}</router-link>
       <router-link to="/capture">{{ t("nav.capture") }}</router-link>
       <router-link to="/about">{{ t("nav.about") }}</router-link>
@@ -97,7 +97,7 @@ body {
   .nav {
     a {
       display: inline-block;
-      min-width: 50px;
+      min-width: 70px;
       height: 30px;
       line-height: 30px;
       padding: 0 5px;
@@ -133,7 +133,7 @@ body {
 
       .lang-item {
         display: inline-block;
-        min-width: 50px;
+        min-width: 70px;
         height: 30px;
         line-height: 30px;
         padding: 0 5px;
