@@ -1,11 +1,9 @@
 module capturePrimer
 
-go 1.21
-
-toolchain go1.22.0
+go 1.23.2
 
 require (
-	github.com/liserjrqlxue/PrimerDesigner/v2 v2.2.2
+	github.com/liserjrqlxue/DNA v0.1.0
 	github.com/liserjrqlxue/goUtil v0.2.0
 	github.com/wailsapp/wails/v2 v2.9.2
 	github.com/xuri/excelize/v2 v2.9.0
@@ -45,6 +43,3 @@ require (
 	golang.org/x/sys v0.26.0 // indirect
 	golang.org/x/text v0.19.0 // indirect
 )
-
-// replace github.com/wailsapp/wails/v2 v2.8.0 => C:\Users\jrqlx\go\pkg\mod
-replace github.com/liserjrqlxue/PrimerDesigner/v2 v2.2.2 => D:\GolandProjects\PrimerDesigner
