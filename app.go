@@ -162,7 +162,7 @@ func (a *App) RunCapture(path string, totalLength int, looseness bool) (allResul
 				return
 			}
 
-			Seq := util.NewSeq(geneName, rawSeq, geneName, false)
+			Seq := util.NewSeq(geneName, rawSeq, geneName, false, false)
 			slog.Info("Seq", "Name", Seq.Name, "Length", Seq.Length, "extendLength", totalLength)
 			Seq.CalAll()
 			err := Seq.FindCapturePrimers(totalLength, 200, looseness)
@@ -177,6 +177,8 @@ func (a *App) RunCapture(path string, totalLength int, looseness bool) (allResul
 			for i, primer := range primers {
 				left := util.NewPrimer(primer.Name+"-5F-"+strconv.Itoa(i+1), Seq.Seq, primer.End-totalLength, primer.End)
 				right := util.NewPrimer(primer.Name+"-3R-"+strconv.Itoa(i+1), Seq.Seq, primer.Start, primer.Start+totalLength)
+				// 下游引物序列改为反向互补
+				right.Seq = util.ReverseComplement(right.Seq)
 				pair := &PrimerPair{
 					Primer5F: left,
 					Primer3R: right,
