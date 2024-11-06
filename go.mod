@@ -3,7 +3,7 @@ module capturePrimer
 go 1.23.2
 
 require (
-	github.com/liserjrqlxue/DNA v0.1.0
+	github.com/liserjrqlxue/DNA v0.1.1
 	github.com/liserjrqlxue/goUtil v0.2.0
 	github.com/wailsapp/wails/v2 v2.9.2
 	github.com/xuri/excelize/v2 v2.9.0

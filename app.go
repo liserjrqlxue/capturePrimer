@@ -10,7 +10,7 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/liserjrqlxue/PrimerDesigner/v2/pkg/util"
+	"github.com/liserjrqlxue/DNA/pkg/util"
 
 	"github.com/liserjrqlxue/goUtil/simpleUtil"
 	"github.com/wailsapp/wails/v2/pkg/runtime"
