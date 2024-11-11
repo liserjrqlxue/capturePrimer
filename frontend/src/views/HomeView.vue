@@ -3,12 +3,12 @@ import { useI18n } from "vue-i18n";
 
 import HelloWorld from "@/components/HelloWorld.vue";
 
-import router from "../router"
+import router from "../router";
 
 const { t } = useI18n();
 
-if (history.length<=1){
-  router.replace('/capture')
+if (history.length <= 1) {
+  router.replace("/capture");
 }
 </script>
 
@@ -24,7 +24,9 @@ if (history.length<=1){
         class="btn start"
         >{{ t("homepage.getting-started") }}</a
       > -->
-      <router-link class="btn start" to="/capture">{{ t("homepage.capturePrimer") }}</router-link>
+      <router-link class="btn start" to="/capture">{{
+        t("homepage.capturePrimer")
+      }}</router-link>
     </div>
   </div>
 </template>
