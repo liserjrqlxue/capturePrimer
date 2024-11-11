@@ -1,13 +1,10 @@
 <script setup lang="ts">
 import { useI18n } from "vue-i18n";
-import {WindowMinimise,Quit} from "../wailsjs/runtime/runtime";
-
-
-
+import { WindowMinimise, Quit } from "../wailsjs/runtime/runtime";
 
 const { t, availableLocales: languages, locale } = useI18n();
 
-locale.value="zh-Hans";
+locale.value = "zh-Hans";
 
 const onclickLanguageHandle = (item: string) => {
   item !== locale.value ? (locale.value = item) : false;
@@ -30,7 +27,7 @@ const onclickQuit = () => {
   <!-- Header -->
   <div class="header">
     <!-- navigation -->
-    <div class="nav"  style="--wails-draggable:drag">
+    <div class="nav" style="--wails-draggable: drag">
       <router-link to="/">{{ t("nav.home") }}</router-link>
       <router-link to="/capture">{{ t("nav.capture") }}</router-link>
       <router-link to="/about">{{ t("nav.about") }}</router-link>
@@ -38,8 +35,13 @@ const onclickQuit = () => {
     <!-- Menu -->
     <div class="menu">
       <div class="language">
-        <div v-for="item in languages" :key="item" :class="{ active: item === locale }"
-          @click="onclickLanguageHandle(item)" class="lang-item">
+        <div
+          v-for="item in languages"
+          :key="item"
+          :class="{ active: item === locale }"
+          @click="onclickLanguageHandle(item)"
+          class="lang-item"
+        >
           {{ t("languages." + item) }}
         </div>
       </div>
