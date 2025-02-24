@@ -6,7 +6,7 @@
   "include": ["vite.config.*", "vitest.config.*", "cypress.config.*"],
   "compilerOptions": {
     // 其他配置
-    //"noEmit": false,
+    "noEmit": false,
     "composite": true,
     "types": ["node"]
   }
